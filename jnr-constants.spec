@@ -1,6 +1,6 @@
 Name:           jnr-constants
 Version:        0.7
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        MIT
@@ -47,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_javadir}/constantine.jar
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
