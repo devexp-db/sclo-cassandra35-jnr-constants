@@ -1,54 +1,76 @@
+%global commit_hash 7cb9fc2
+%global tag_hash 874071e
+
 Name:           jnr-constants
-Version:        0.7
-Release:        6%{?dist}
+Version:        0.8.4
+Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
-License:        MIT
-URL:            http://github.com/wmeissner/jnr-constants/
-Source0:        http://download.github.com/wmeissner-jnr-constants-0.7-0-g8b45ca7.tar.gz
-# remove wagon-svn & wagon-webdav deps
-Patch0:         jnr-constants-0.7-pom_xml.patch
+License:        ASL 2.0
+URL:            http://github.com/jnr/%{name}/
+Source0:        https://github.com/jnr/%{name}/tarball/%{version}/jnr-%{name}-%{version}-0-g%{commit_hash}.tar.gz
 BuildArch:      noarch
 
-BuildRequires:  ant
-BuildRequires:  java-devel >= 1:1.6.0
+BuildRequires:  java-devel
 BuildRequires:  jpackage-utils
-Requires:       java >= 1:1.6.0
+BuildRequires:  maven-local
+BuildRequires:  maven-compiler-plugin
+BuildRequires:  maven-install-plugin
+BuildRequires:  maven-jar-plugin
+BuildRequires:  maven-javadoc-plugin
+BuildRequires:  maven-surefire-plugin
+BuildRequires:  maven-surefire-provider-junit4
+
+Requires:       java
 Requires:       jpackage-utils
 
 %description
 Provides java values for common platform C constants (e.g. errno).
 
+%package javadoc
+Summary:        Javadocs for %{name}
+Group:          Documentation
+Requires:       jpackage-utils
+
+%description javadoc
+This package contains the API documentation for %{name}.
+
 %prep
-%setup -q -n wmeissner-%{name}-8b45ca7
+%setup -q -n jnr-%{name}-%{tag_hash}
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
-%patch0 -p0
 
 %build
-ant jar
+mvn-rpmbuild install javadoc:aggregate
 
 %install
+mkdir -p $RPM_BUILD_ROOT%{_javadir}
+cp -p target/%{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
 
-mkdir -p %{buildroot}%{_javadir}
+mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
-# project was renamed from 'constantine' to jnr-constants, but jar has
-# yet to be renamed http://fedoraproject.org/wiki/Packaging/Java#Jar_file_naming
-cp -p dist/constantine.jar %{buildroot}%{_javadir}/%{name}.jar
-ln -s %{_javadir}/%{name}.jar %{buildroot}%{_javadir}/constantine.jar
+install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}
+install -pm 644 pom.xml  \
+        $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
 
-mkdir -p %{buildroot}%{_mavenpomdir}
-install -pm 644 pom.xml %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 %add_maven_depmap JPP-%{name}.pom %{name}.jar
 
 %files
 %doc LICENSE
+%{_mavenpomdir}/JPP-%{name}.pom
+%{_mavendepmapfragdir}/%{name}
 %{_javadir}/%{name}.jar
-%{_javadir}/constantine.jar
-%{_mavenpomdir}/*
-%{_mavendepmapfragdir}/*
+
+%files javadoc
+%doc LICENSE
+%{_javadocdir}/%{name}
 
 %changelog
+* Tue Feb 05 2013 Bohuslav Kabrda <bkabrda@redhat.com> - 0.8.4-1
+- Updated to version 0.8.4.
+- Switch from ant to maven.
+
 * Tue Oct 09 2012 gil cattaneo <puntogil@libero.it> 0.7-6
 - add maven pom
 - adapt to current guideline
