@@ -3,7 +3,7 @@
 
 Name:           jnr-constants
 Version:        0.8.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
@@ -46,6 +46,8 @@ mvn-rpmbuild install javadoc:aggregate
 %install
 mkdir -p $RPM_BUILD_ROOT%{_javadir}
 cp -p target/%{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
+# link to older version jarname, so that gradle works
+ln -s %{_javadir}/%{name}.jar $RPM_BUILD_ROOT%{_javadir}/constantine.jar
 
 mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
@@ -61,12 +63,16 @@ install -pm 644 pom.xml  \
 %{_mavenpomdir}/JPP-%{name}.pom
 %{_mavendepmapfragdir}/%{name}
 %{_javadir}/%{name}.jar
+%{_javadir}/constantine.jar
 
 %files javadoc
 %doc LICENSE
 %{_javadocdir}/%{name}
 
 %changelog
+* Fri Feb 15 2013 Bohuslav Kabrda <bkabrda@redhat.com> - 0.8.4-2
+- Provide a constantine.jar simlink for gradle.
+
 * Tue Feb 05 2013 Bohuslav Kabrda <bkabrda@redhat.com> - 0.8.4-1
 - Updated to version 0.8.4.
 - Switch from ant to maven.
