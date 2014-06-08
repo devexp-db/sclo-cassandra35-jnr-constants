@@ -3,7 +3,7 @@
 
 Name:           jnr-constants
 Version:        0.8.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
@@ -69,6 +69,9 @@ install -pm 644 pom.xml  \
 %{_javadocdir}/%{name}
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.4-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 0.8.4-4
 - Use Requires: java-headless rebuild (#1067528)
 
