@@ -3,7 +3,7 @@
 
 Name:           jnr-constants
 Version:        0.8.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
@@ -19,7 +19,7 @@ BuildRequires:  maven-install-plugin
 BuildRequires:  maven-jar-plugin
 BuildRequires:  maven-javadoc-plugin
 BuildRequires:  maven-surefire-plugin
-BuildRequires:  maven-surefire-provider-junit4
+BuildRequires:  maven-surefire-provider-junit
 
 Requires:       jpackage-utils
 
@@ -40,7 +40,7 @@ find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 
 %build
-mvn-rpmbuild install javadoc:aggregate
+%mvn_build
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_javadir}
@@ -57,10 +57,9 @@ install -pm 644 pom.xml  \
 
 %add_maven_depmap JPP-%{name}.pom %{name}.jar
 
-%files
+%files -f .mfiles
 %doc LICENSE
 %{_mavenpomdir}/JPP-%{name}.pom
-%{_mavendepmapfragdir}/%{name}
 %{_javadir}/%{name}.jar
 %{_javadir}/constantine.jar
 
@@ -69,6 +68,9 @@ install -pm 644 pom.xml  \
 %{_javadocdir}/%{name}
 
 %changelog
+* Thu Jun 12 2014 Alexander Kurtakov <akurtako@redhat.com> 0.8.4-6
+- Fix FTBFS.
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
@@ -116,4 +118,3 @@ install -pm 644 pom.xml  \
 
 * Fri Nov 28 2008 Conrad Meyer <konrad@tylerc.org> - 0.1-1
 - Initial package (needed for jruby 1.1.5).
-
