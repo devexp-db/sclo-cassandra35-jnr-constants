@@ -1,18 +1,17 @@
-%global commit_hash 7cb9fc2
-%global tag_hash 874071e
+%global commit_hash 2478e42 
+%global tag_hash 2478e42 
 
 Name:           jnr-constants
-Version:        0.8.4
-Release:        6%{?dist}
+Version:        0.8.6
+Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
-Source0:        https://github.com/jnr/%{name}/tarball/%{version}/jnr-%{name}-%{version}-0-g%{commit_hash}.tar.gz
+Source0:        https://github.com/jnr/%{name}/archive/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  java-devel
-BuildRequires:  jpackage-utils
 BuildRequires:  maven-local
 BuildRequires:  maven-compiler-plugin
 BuildRequires:  maven-install-plugin
@@ -21,53 +20,39 @@ BuildRequires:  maven-javadoc-plugin
 BuildRequires:  maven-surefire-plugin
 BuildRequires:  maven-surefire-provider-junit
 
-Requires:       jpackage-utils
-
 %description
 Provides java values for common platform C constants (e.g. errno).
 
 %package javadoc
 Summary:        Javadocs for %{name}
 Group:          Documentation
-Requires:       jpackage-utils
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q -n jnr-%{name}-%{tag_hash}
+%setup -q -n %{name}-%{name}-%{version}
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
+%mvn_file :jnr-constants constantine
 
 %build
 %mvn_build
 
 %install
-mkdir -p $RPM_BUILD_ROOT%{_javadir}
-cp -p target/%{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
-# link to older version jarname, so that gradle works
-ln -s %{_javadir}/%{name}.jar $RPM_BUILD_ROOT%{_javadir}/constantine.jar
-
-mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-
-install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}
-install -pm 644 pom.xml  \
-        $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
-
-%add_maven_depmap JPP-%{name}.pom %{name}.jar
+%mvn_install
 
 %files -f .mfiles
 %doc LICENSE
-%{_mavenpomdir}/JPP-%{name}.pom
-%{_javadir}/%{name}.jar
-%{_javadir}/constantine.jar
 
-%files javadoc
+%files javadoc -f .mfiles-javadoc
 %doc LICENSE
-%{_javadocdir}/%{name}
 
 %changelog
+* Thu Apr 30 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.6-1
+- Update to upstream 0.8.6.
+- Start using mvn_install.
+
 * Thu Jun 12 2014 Alexander Kurtakov <akurtako@redhat.com> 0.8.4-6
 - Fix FTBFS.
 
