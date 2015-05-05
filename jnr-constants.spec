@@ -1,14 +1,11 @@
-%global commit_hash 2478e42 
-%global tag_hash 2478e42 
-
 Name:           jnr-constants
-Version:        0.8.6
+Version:        0.8.7
 Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
-Source0:        https://github.com/jnr/%{name}/archive/%{name}-%{version}.tar.gz
+Source0:        https://github.com/jnr/%{name}/archive/%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  java-devel
@@ -31,7 +28,7 @@ Group:          Documentation
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 %mvn_file :jnr-constants constantine
@@ -49,6 +46,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Tue May 5 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.7-1
+- Update to upstream 0.8.7.
+
 * Thu Apr 30 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.6-1
 - Update to upstream 0.8.6.
 - Start using mvn_install.
