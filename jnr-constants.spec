@@ -1,6 +1,6 @@
 Name:           jnr-constants
 Version:        0.8.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Native Runtime constants 
 Group:          Development/Libraries
 License:        ASL 2.0
@@ -31,7 +31,7 @@ This package contains the API documentation for %{name}.
 %setup -q
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
-%mvn_file :jnr-constants constantine
+%mvn_file : %{name}/%{name} %{name} constantine
 
 %build
 %mvn_build
@@ -46,6 +46,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Mon May 11 2015 Michal Srb <msrb@redhat.com> - 0.8.7-2
+- Restore symlinks for backward compatibility
+
 * Tue May 5 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.7-1
 - Update to upstream 0.8.7.
 
