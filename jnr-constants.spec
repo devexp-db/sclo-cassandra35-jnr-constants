@@ -1,28 +1,22 @@
 Name:           jnr-constants
-Version:        0.8.7
-Release:        2%{?dist}
+Version:        0.8.8
+Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
-Group:          Development/Libraries
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
 Source0:        https://github.com/jnr/%{name}/archive/%{version}.tar.gz
 BuildArch:      noarch
 
-BuildRequires:  java-devel
 BuildRequires:  maven-local
-BuildRequires:  maven-compiler-plugin
-BuildRequires:  maven-install-plugin
-BuildRequires:  maven-jar-plugin
-BuildRequires:  maven-javadoc-plugin
-BuildRequires:  maven-surefire-plugin
-BuildRequires:  maven-surefire-provider-junit
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
+BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 Provides java values for common platform C constants (e.g. errno).
 
 %package javadoc
 Summary:        Javadocs for %{name}
-Group:          Documentation
 
 %description javadoc
 This package contains the API documentation for %{name}.
@@ -46,6 +40,10 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Tue Jun 16 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.8-1
+- Update to upstream 0.8.8.
+- Switch to mvn() style BRs.
+
 * Mon May 11 2015 Michal Srb <msrb@redhat.com> - 0.8.7-2
 - Restore symlinks for backward compatibility
 
