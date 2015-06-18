@@ -1,10 +1,13 @@
 Name:           jnr-constants
 Version:        0.8.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Native Runtime constants 
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
 Source0:        https://github.com/jnr/%{name}/archive/%{version}.tar.gz
+Source1:        MANIFEST.MF
+Patch0:         add-manifest.patch
+
 BuildArch:      noarch
 
 BuildRequires:  maven-local
@@ -23,6 +26,8 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q
+cp %{SOURCE1} .
+%patch0
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 %mvn_file : %{name}/%{name} %{name} constantine
@@ -40,6 +45,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Thu Jun 18 2015 Jeff Johnston <jjohnstn@redhat.com> 0.8.8-2
+- Add MANIFEST.MF.
+
 * Tue Jun 16 2015 Alexander Kurtakov <akurtako@redhat.com> 0.8.8-1
 - Update to upstream 0.8.8.
 - Switch to mvn() style BRs.
