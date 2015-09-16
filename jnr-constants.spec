@@ -1,6 +1,6 @@
 Name:           jnr-constants
-Version:        0.8.8
-Release:        2%{?dist}
+Version:        0.9.0
+Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
@@ -45,6 +45,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Wed Sep 16 2015 Alexander Kurtakov <akurtako@redhat.com> 0.9.0-1
+- Update to upstream 0.9.0.
+
 * Thu Jun 18 2015 Jeff Johnston <jjohnstn@redhat.com> 0.8.8-2
 - Add MANIFEST.MF.
 
