@@ -1,6 +1,6 @@
 Name:           jnr-constants
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Java Native Runtime constants 
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
@@ -45,6 +45,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Sep 16 2015 Alexander Kurtakov <akurtako@redhat.com> 0.9.0-1
 - Update to upstream 0.9.0.
 
