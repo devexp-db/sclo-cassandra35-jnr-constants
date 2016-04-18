@@ -1,12 +1,10 @@
 Name:           jnr-constants
-Version:        0.9.0
-Release:        2%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 License:        ASL 2.0
 URL:            http://github.com/jnr/%{name}/
-Source0:        https://github.com/jnr/%{name}/archive/%{version}.tar.gz
-Source1:        MANIFEST.MF
-Patch0:         add-manifest.patch
+Source0:        https://github.com/jnr/%{name}/archive/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -25,9 +23,7 @@ Summary:        Javadocs for %{name}
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q
-cp %{SOURCE1} .
-%patch0
+%setup -q -n %{name}-%{name}-%{version}
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
 %mvn_file : %{name}/%{name} %{name} constantine
@@ -45,6 +41,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Mon Apr 18 2016 Alexander Kurtakov <akurtako@redhat.com> 0.9.1-1
+- Update to upstream 0.9.1 with osgification.
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
