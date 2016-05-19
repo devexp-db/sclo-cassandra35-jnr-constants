@@ -1,5 +1,5 @@
 Name:           jnr-constants
-Version:        0.9.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        Java Native Runtime constants 
 License:        ASL 2.0
@@ -41,6 +41,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Thu May 19 2016 Alexander Kurtakov <akurtako@redhat.com> 0.9.2-1
+- Update to upstream 0.9.2 release.
+
 * Mon Apr 18 2016 Alexander Kurtakov <akurtako@redhat.com> 0.9.1-1
 - Update to upstream 0.9.1 with osgification.
 
