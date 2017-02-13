@@ -1,39 +1,49 @@
-Name:           jnr-constants
-Version:        0.9.6
-Release:        2%{?dist}
-Summary:        Java Native Runtime constants 
-License:        ASL 2.0
-URL:            http://github.com/jnr/%{name}/
-Source0:        https://github.com/jnr/%{name}/archive/%{name}-%{version}.tar.gz
+%{?scl:%scl_package jnr-constants}
+%{!?scl:%global pkg_name %{name}}
 
-BuildArch:      noarch
+Name:		%{?scl_prefix}jnr-constants
+Version:	0.9.6
+Release:	3%{?dist}
+Summary:	Java Native Runtime constants
+License:	ASL 2.0
+URL:		http://github.com/jnr/%{pkg_name}/
+Source0:	https://github.com/jnr/%{pkg_name}/archive/%{pkg_name}-%{version}.tar.gz
 
-BuildRequires:  maven-local
-BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.apache.maven.plugins:maven-source-plugin)
-BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
+BuildArch:	noarch
+
+BuildRequires:	%{?scl_prefix_java_common}junit
+BuildRequires:	%{?scl_prefix_maven}maven-local
+BuildRequires:	%{?scl_prefix_maven}maven-plugin-bundle
+BuildRequires:	%{?scl_prefix_maven}maven-source-plugin
+BuildRequires:	%{?scl_prefix_maven}sonatype-oss-parent
+%{?scl:Requires: %scl_runtime}
 
 %description
 Provides java values for common platform C constants (e.g. errno).
 
 %package javadoc
-Summary:        Javadocs for %{name}
+Summary:	Javadocs for %{name}
 
 %description javadoc
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q -n %{pkg_name}-%{pkg_name}-%{version}
 find ./ -name '*.jar' -delete
 find ./ -name '*.class' -delete
-%mvn_file : %{name}/%{name} %{name} constantine
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
+%mvn_file : %{pkg_name}/%{pkg_name} %{pkg_name} constantine
+%{?scl:EOF}
 
 %build
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_build
+%{?scl:EOF}
 
 %install
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_install
+%{?scl:EOF}
 
 %files -f .mfiles
 %doc LICENSE
@@ -42,6 +52,9 @@ find ./ -name '*.class' -delete
 %doc LICENSE
 
 %changelog
+* Mon Feb 13 2017 Tomas Repik <trepik@redhat.com> - 0.9.6-3
+- scl conversion
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
